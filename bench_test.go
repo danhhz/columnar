@@ -26,6 +26,7 @@ func BenchmarkUInt64(b *testing.B) {
 		for i := 0; i < b.N; i++ {
 			l.Set(i, uint64(i))
 		}
+		b.SetBytes(8)
 	})
 
 	b.Run("Decode", func(b *testing.B) {
@@ -39,5 +40,6 @@ func BenchmarkUInt64(b *testing.B) {
 		for i := 0; i < b.N; i++ {
 			x += l.At(i)
 		}
+		b.SetBytes(8)
 	})
 }
