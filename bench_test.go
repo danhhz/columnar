@@ -22,24 +22,29 @@ func BenchmarkUInt64(b *testing.B) {
 	}
 
 	b.Run("Encode", func(b *testing.B) {
-		l := setup(b, b.N)
+		l := setup(b, 1024)
+		b.ResetTimer()
 		for i := 0; i < b.N; i++ {
-			l.Set(i, uint64(i))
+			for j := 0; j < 1024; j++ {
+				l.Set(j, uint64(j))
+			}
 		}
-		b.SetBytes(8)
+		b.SetBytes(8 * 1024)
 	})
 
 	b.Run("Decode", func(b *testing.B) {
-		l := setup(b, b.N)
-		for i := 0; i < b.N; i++ {
-			l.Set(i, uint64(i))
-		}
+		l := setup(b, 1024)
+			for j := 0; j < 1024; j++ {
+				l.Set(j, uint64(j))
+			}
 		b.ResetTimer()
 
 		var x uint64
 		for i := 0; i < b.N; i++ {
-			x += l.At(i)
+			for j := 0; j < 1024; j++ {
+				x += l.At(j)
+			}
 		}
-		b.SetBytes(8)
+		b.SetBytes(8 * 1024)
 	})
 }
